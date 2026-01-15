@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+pyautogui
+pynput
+python-multipart
+websockets
+qrcode
+psutil

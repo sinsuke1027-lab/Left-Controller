@@ -1,0 +1,50 @@
+.tabsContainer {
+  display: flex;
+  flex-wrap: nowrap; /* Force single line */
+  gap: 12px;
+  overflow-x: auto;
+  padding: 8px 4px;
+  width: 100%;
+  max-width: 100%; /* Allow full width to utilize screen space for scrolling */
+  margin-bottom: 20px;
+  /* Hide scrollbar */
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+.tabsContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  padding: 10px 20px;
+  border-radius: 16px;
+  border: none;
+  background: var(--surface);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1; /* Distribute evenly */
+  text-align: center;
+  min-width: 0; /* Allow shrinking properly if needed, though we limited to 5 */
+  
+  /* Neumorphism Inactive */
+  box-shadow: 
+    5px 5px 10px var(--shadow-dark),
+    -5px -5px 10px var(--shadow-light);
+  border: 1px solid rgba(255,255,255,0.02);
+}
+
+.active {
+  color: var(--accent);
+  background: var(--surface-light);
+  /* Neumorphism Active (Pressed) */
+  box-shadow: 
+    inset 4px 4px 8px var(--shadow-dark),
+    inset -4px -4px 8px var(--shadow-light),
+    0 0 10px var(--accent-glow);
+  transform: translateY(1px);
+}

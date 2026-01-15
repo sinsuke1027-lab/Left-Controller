@@ -1,0 +1,113 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding-top: 2rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+  gap: 24px;
+  padding: 24px;
+  width: 100%;
+  max-width: 400px; /* Constrain width for better ergonomics */
+}
+
+@media (min-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns on tablet/desktop */
+    max-width: 600px;
+  }
+}
+
+.button {
+  aspect-ratio: 1;
+  background: var(--surface);
+  border-radius: 20px;
+  color: var(--text-secondary);
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Neumorphism: Soft Convex */
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 
+    8px 8px 16px var(--shadow-dark),
+    -8px -8px 16px var(--shadow-light);
+}
+
+.button:active {
+  transform: scale(0.97);
+  color: var(--accent);
+  
+  /* Neumorphism: Concave (Pressed) with Accent Glow */
+  background: var(--surface);
+  box-shadow: 
+    inset 6px 6px 12px var(--shadow-dark),
+    inset -6px -6px 12px var(--shadow-light),
+    0 0 15px var(--accent-glow);
+    
+  border-color: rgba(59, 130, 246, 0.1);
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  transition: transform 0.2s ease;
+}
+
+.button:active .icon {
+  transform: scale(0.9);
+}
+
+.label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.placeholder {
+    background: transparent !important;
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+    opacity: 0.6;
+}
+
+.placeholder:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(255, 255, 255, 0.02) !important;
+}
+
+.deleteBadge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #ef4444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 10;
+    transition: transform 0.2s;
+}
+
+.deleteBadge:hover {
+    transform: scale(1.1);
+    background-color: #dc2626;
+}

@@ -1,0 +1,393 @@
+{
+  "profiles": [
+    {
+      "id": "home",
+      "name": "Home",
+      "buttons": [
+        {
+          "id": "vol_up",
+          "label": "Vol +",
+          "icon": "volume-2",
+          "action": "predefined",
+          "params": [
+            "volumeup"
+          ]
+        },
+        {
+          "id": "vol_down",
+          "label": "Vol -",
+          "icon": "volume-1",
+          "action": "predefined",
+          "params": [
+            "volumedown"
+          ]
+        },
+        {
+          "id": "mute",
+          "label": "Mute",
+          "icon": "volume-x",
+          "action": "predefined",
+          "params": [
+            "volumemute"
+          ]
+        },
+        {
+          "id": "desktop",
+          "label": "Desktop",
+          "icon": "monitor",
+          "action": "hotkey",
+          "params": [
+            "win",
+            "d"
+          ]
+        },
+        {
+          "id": "screenshot",
+          "label": "Shot",
+          "icon": "camera",
+          "action": "hotkey",
+          "params": [
+            "win",
+            "shift",
+            "s"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mac",
+      "name": "Mac",
+      "buttons": [
+        {
+          "id": "spotlight",
+          "label": "Spotlight",
+          "icon": "search",
+          "action": "hotkey",
+          "params": [
+            "command",
+            "space"
+          ]
+        },
+        {
+          "id": "mission",
+          "label": "Mission Ctrl",
+          "icon": "layout-dashboard",
+          "action": "hotkey",
+          "params": [
+            "ctrl",
+            "up"
+          ]
+        },
+        {
+          "id": "app_switch",
+          "label": "Switch App",
+          "icon": "app-window",
+          "action": "hotkey",
+          "params": [
+            "command",
+            "tab"
+          ]
+        },
+        {
+          "id": "mac_shot",
+          "label": "Screen Shot",
+          "icon": "camera",
+          "action": "hotkey",
+          "params": [
+            "command",
+            "shift",
+            "4"
+          ]
+        },
+        {
+          "id": "emoji",
+          "label": "Emoji",
+          "icon": "smile",
+          "action": "hotkey",
+          "params": [
+            "ctrl",
+            "command",
+            "space"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "excel",
+      "name": "Excel",
+      "buttons": [
+        {
+          "id": "save",
+          "label": "Save",
+          "icon": "save",
+          "action": "hotkey",
+          "params": [
+            "ctrl",
+            "s"
+          ]
+        },
+        {
+          "id": "filter",
+          "label": "Filter",
+          "icon": "filter",
+          "action": "hotkey",
+          "params": [
+            "ctrl",
+            "shift",
+            "l"
+          ]
+        },
+        {
+          "id": "date",
+          "label": "Date",
+          "icon": "calendar",
+          "action": "hotkey",
+          "params": [
+            "ctrl",
+            ";"
+          ]
+        },
+        {
+          "id": "paste_sp",
+          "label": "Paste Sp",
+          "icon": "clipboard",
+          "action": "hotkey",
+          "params": [
+            "ctrl",
+            "alt",
+            "v"
+          ]
+        },
+        {
+          "id": "insert_row",
+          "label": "Add Row",
+          "icon": "plus-square",
+          "action": "hotkey",
+          "params": [
+            "ctrl",
+            "+"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "word",
+      "name": "Word",
+      "buttons": [
+        {
+          "id": "bold",
+          "label": "Bold",
+          "icon": "bold",
+          "action": "hotkey",
+          "params": [
+            "ctrl",
+            "b"
+          ]
+        },
+        {
+          "id": "center",
+          "label": "Center",
+          "icon": "align-center",
+          "action": "hotkey",
+          "params": [
+            "ctrl",
+            "e"
+          ]
+        },
+        {
+          "id": "page_break",
+          "label": "Page Break",
+          "icon": "file-plus",
+          "action": "hotkey",
+          "params": [
+            "ctrl",
+            "enter"
+          ]
+        },
+        {
+          "id": "link",
+          "label": "Link",
+          "icon": "link",
+          "action": "hotkey",
+          "params": [
+            "ctrl",
+            "k"
+          ]
+        },
+        {
+          "id": "comment",
+          "label": "Comment",
+          "icon": "message-square-plus",
+          "action": "hotkey",
+          "params": [
+            "ctrl",
+            "alt",
+            "m"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ppt",
+      "name": "PowerPoint",
+      "buttons": [
+        {
+          "id": "start",
+          "label": "Start",
+          "icon": "play",
+          "action": "hotkey",
+          "params": [
+            "f5"
+          ]
+        },
+        {
+          "id": "current",
+          "label": "Current",
+          "icon": "play-circle",
+          "action": "hotkey",
+          "params": [
+            "shift",
+            "f5"
+          ]
+        },
+        {
+          "id": "new_slide",
+          "label": "New Slide",
+          "icon": "plus",
+          "action": "hotkey",
+          "params": [
+            "ctrl",
+            "m"
+          ]
+        },
+        {
+          "id": "dup",
+          "label": "Duplicate",
+          "icon": "copy",
+          "action": "hotkey",
+          "params": [
+            "ctrl",
+            "d"
+          ]
+        },
+        {
+          "id": "group",
+          "label": "Group",
+          "icon": "group",
+          "action": "hotkey",
+          "params": [
+            "ctrl",
+            "g"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmd",
+      "name": "Cmd",
+      "buttons": [
+        {
+          "id": "kill",
+          "label": "Cancel",
+          "icon": "x-square",
+          "action": "hotkey",
+          "params": [
+            "ctrl",
+            "c"
+          ]
+        },
+        {
+          "id": "clear",
+          "label": "Clear",
+          "icon": "eraser",
+          "action": "type",
+          "params": [
+            "cls\n"
+          ]
+        },
+        {
+          "id": "ip",
+          "label": "IP Config",
+          "icon": "network",
+          "action": "type",
+          "params": [
+            "ipconfig\n"
+          ]
+        },
+        {
+          "id": "dir",
+          "label": "Dir",
+          "icon": "folder-open",
+          "action": "type",
+          "params": [
+            "dir\n"
+          ]
+        },
+        {
+          "id": "search",
+          "label": "History",
+          "icon": "history",
+          "action": "hotkey",
+          "params": [
+            "ctrl",
+            "r"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "custom_1768446603318",
+      "name": "New Profile",
+      "buttons": [
+        {
+          "id": "btn_1768446603318_1",
+          "label": "Btn 1",
+          "icon": "square",
+          "action": "press",
+          "params": [
+            ""
+          ],
+          "colSpan": 2,
+          "rowSpan": 2
+        },
+        {
+          "id": "btn_1768446603318_2",
+          "label": "Btn 2",
+          "icon": "square",
+          "action": "press",
+          "params": []
+        },
+        {
+          "id": "btn_1768446603318_3",
+          "label": "Btn 3",
+          "icon": "square",
+          "action": "press",
+          "params": []
+        },
+        {
+          "id": "btn_1768446603318_4",
+          "label": "Btn 4",
+          "icon": "square",
+          "action": "press",
+          "params": []
+        },
+        {
+          "id": "btn_1768446603318_5",
+          "label": "Btn 5",
+          "icon": "square",
+          "action": "press",
+          "params": []
+        },
+        {
+          "id": "btn_1768446603318_6",
+          "label": "Btn 6",
+          "icon": "square",
+          "action": "press",
+          "params": []
+        }
+      ],
+      "rows": 4,
+      "cols": 4
+    }
+  ]
+}
