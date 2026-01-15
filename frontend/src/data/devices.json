@@ -1,0 +1,9 @@
+[
+  {
+    "id": "local",
+    "name": "This Mac mini",
+    "host": "192.168.1.10",
+    "port": 8002,
+    "os": "mac"
+  }
+]

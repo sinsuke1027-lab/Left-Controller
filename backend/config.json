@@ -5,52 +5,68 @@
       "name": "Home",
       "buttons": [
         {
-          "id": "vol_up",
-          "label": "Vol +",
-          "icon": "volume-2",
-          "action": "predefined",
+          "id": "btn_1768473195000",
+          "label": "Copy",
+          "icon": "Copy",
+          "action": "hotkey",
           "params": [
-            "volumeup"
-          ]
+            "ctrl",
+            "c"
+          ],
+          "colSpan": 1,
+          "rowSpan": 1,
+          "backgroundColor": "var(--surface)"
         },
         {
-          "id": "vol_down",
-          "label": "Vol -",
-          "icon": "volume-1",
-          "action": "predefined",
+          "id": "btn_1768473218560",
+          "label": "Paste",
+          "icon": "Clipboard",
+          "action": "hotkey",
           "params": [
-            "volumedown"
-          ]
+            "ctrl",
+            "v"
+          ],
+          "colSpan": 1,
+          "rowSpan": 1,
+          "backgroundColor": "var(--surface)"
         },
         {
-          "id": "mute",
-          "label": "Mute",
-          "icon": "volume-x",
-          "action": "predefined",
+          "id": "btn_1768473223981",
+          "label": "Refresh",
+          "icon": "RefreshCw",
+          "action": "hotkey",
           "params": [
-            "volumemute"
-          ]
+            "ctrl",
+            "r"
+          ],
+          "colSpan": 1,
+          "rowSpan": 1,
+          "backgroundColor": "var(--surface)"
         },
         {
-          "id": "desktop",
-          "label": "Desktop",
-          "icon": "monitor",
+          "id": "btn_1768473343428",
+          "label": "Task View",
+          "icon": "Grid",
           "action": "hotkey",
           "params": [
             "win",
-            "d"
-          ]
+            "tab"
+          ],
+          "colSpan": 1,
+          "rowSpan": 1,
+          "backgroundColor": "var(--surface)"
         },
         {
-          "id": "screenshot",
-          "label": "Shot",
-          "icon": "camera",
-          "action": "hotkey",
+          "id": "btn_1768473393192",
+          "label": "Tab",
+          "icon": "ArrowRightFromLine",
+          "action": "press",
           "params": [
-            "win",
-            "shift",
-            "s"
-          ]
+            "tab"
+          ],
+          "colSpan": 1,
+          "rowSpan": 1,
+          "backgroundColor": "var(--surface)"
         }
       ]
     },
@@ -138,16 +154,6 @@
           ]
         },
         {
-          "id": "date",
-          "label": "Date",
-          "icon": "calendar",
-          "action": "hotkey",
-          "params": [
-            "ctrl",
-            ";"
-          ]
-        },
-        {
           "id": "paste_sp",
           "label": "Paste Sp",
           "icon": "clipboard",
@@ -156,16 +162,6 @@
             "ctrl",
             "alt",
             "v"
-          ]
-        },
-        {
-          "id": "insert_row",
-          "label": "Add Row",
-          "icon": "plus-square",
-          "action": "hotkey",
-          "params": [
-            "ctrl",
-            "+"
           ]
         }
       ]

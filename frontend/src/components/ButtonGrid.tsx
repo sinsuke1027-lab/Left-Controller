@@ -54,11 +54,12 @@ export const ButtonGrid: React.FC<ButtonGridProps> = ({ buttons, rows = 3, cols 
                             style={{
                                 gridColumn: `span ${btn.colSpan || 1}`,
                                 gridRow: `span ${btn.rowSpan || 1}`,
-                                backgroundColor: btn.backgroundColor || 'var(--surface)',
-                                position: 'relative'
+                                backgroundColor: (!btn.backgroundColor || btn.backgroundColor === 'var(--surface)') ? undefined : btn.backgroundColor,
+                                position: 'relative',
+                                aspectRatio: (btn.colSpan || 1) === 1 && (btn.rowSpan || 1) === 1 ? '1 / 1' : 'auto'
                             }}
                         >
-                            {!btn.isPlaceholder && <Icon className={styles.icon} />}
+                            {!btn.isPlaceholder && <Icon className={styles.icon} strokeWidth={1.5} />}
                             <span className={styles.label}>{btn.label}</span>
                             
                             {onDelete && !btn.isPlaceholder && (

@@ -274,9 +274,24 @@ export const ButtonEditor: React.FC<ButtonEditorProps> = ({ button, onSave, onDe
 
         </div>
         
-        <div style={{ marginTop: 'auto', paddingTop: '20px', display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-           <button onClick={onCancel} style={{ padding: '10px 20px', borderRadius: '8px', border: 'none', background: 'transparent', color: 'var(--text-secondary)', cursor: 'pointer' }}>Cancel</button>
-           <button onClick={handleSave} style={{ padding: '10px 20px', borderRadius: '8px', border: 'none', background: 'var(--accent)', color: '#fff', fontWeight: 'bold', cursor: 'pointer' }}>Save Changes</button>
+        <div style={{ marginTop: 'auto', paddingTop: '20px', display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
+           {onDelete && (
+             <button 
+               type="button"
+               onClick={(e) => {
+                 e.preventDefault();
+                 e.stopPropagation();
+                 onDelete(button.id); // Parent handles confirmation
+               }} 
+               style={{ padding: '10px 20px', borderRadius: '8px', border: '1px solid #f87171', background: 'transparent', color: '#f87171', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}
+             >
+               <Icons.Trash2 size={16} /> Remove
+             </button>
+           )}
+           <div style={{ display: 'flex', gap: '10px' }}>
+             <button onClick={onCancel} style={{ padding: '10px 20px', borderRadius: '8px', border: 'none', background: 'transparent', color: 'var(--text-secondary)', cursor: 'pointer' }}>Cancel</button>
+             <button onClick={handleSave} style={{ padding: '10px 20px', borderRadius: '8px', border: 'none', background: 'var(--accent)', color: '#fff', fontWeight: 'bold', cursor: 'pointer' }}>Save Changes</button>
+           </div>
         </div>
 
       </div>

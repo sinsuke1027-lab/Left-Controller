@@ -1,0 +1,52 @@
+[
+  {
+    "id": "template-mac-default",
+    "name": "Mac Default Layout",
+    "os": "mac",
+    "profiles": [
+      {
+        "id": "profile-home",
+        "name": "Home",
+        "rows": 3,
+        "cols": 4,
+        "buttons": [
+          { "id": "btn-1", "label": "Copy", "icon": "Copy", "action": "hotkey", "params": ["command", "c"] },
+          { "id": "btn-2", "label": "Paste", "icon": "Clipboard", "action": "hotkey", "params": ["command", "v"] },
+          { "id": "btn-3", "label": "Spotlight", "icon": "Search", "action": "hotkey", "params": ["command", "space"] },
+          { "id": "btn-4", "label": "Mission Control", "icon": "Layout", "action": "hotkey", "params": ["control", "up"] }
+        ]
+      },
+      {
+        "id": "profile-media",
+        "name": "Media",
+        "rows": 3,
+        "cols": 3,
+        "buttons": [
+          { "id": "btn-play", "label": "Play/Pause", "icon": "Play", "action": "press", "params": ["playpause"] },
+          { "id": "btn-volup", "label": "Vol +", "icon": "Volume2", "action": "press", "params": ["volumeup"] },
+          { "id": "btn-voldown", "label": "Vol -", "icon": "Volume1", "action": "press", "params": ["volumedown"] },
+          { "id": "btn-mute", "label": "Mute", "icon": "VolumeX", "action": "system", "params": ["mute"] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "template-win-default",
+    "name": "Windows Default Layout",
+    "os": "windows",
+    "profiles": [
+      {
+        "id": "profile-win-home",
+        "name": "Home",
+        "rows": 3,
+        "cols": 4,
+        "buttons": [
+          { "id": "btn-w1", "label": "Copy", "icon": "Copy", "action": "hotkey", "params": ["ctrl", "c"] },
+          { "id": "btn-w2", "label": "Paste", "icon": "Clipboard", "action": "hotkey", "params": ["ctrl", "v"] },
+          { "id": "btn-w3", "label": "Task View", "icon": "Layout", "action": "hotkey", "params": ["win", "tab"] },
+          { "id": "btn-w4", "label": "File Explorer", "icon": "Folder", "action": "hotkey", "params": ["win", "e"] }
+        ]
+      }
+    ]
+  }
+]

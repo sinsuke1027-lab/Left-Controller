@@ -28,6 +28,9 @@ export const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ initialProfile
   const [isSaving, setIsSaving] = useState(false);
   const [viewMode, setViewMode] = useState<'layout' | 'edit'>('layout'); // 'layout' = Tab Order, 'edit' = Content
 
+  const [deletingProfileId, setDeletingProfileId] = useState<string | null>(null);
+  const [showImportConfirm, setShowImportConfirm] = useState(false);
+
   // Profile Management Logic
   const handleAddProfile = () => {
     const newId = `custom_${Date.now()}`;
@@ -43,15 +46,52 @@ export const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ initialProfile
     setProfiles([...profiles, newProfile]);
   };
 
-  const handleDeleteProfile = (id: string, e?: React.MouseEvent) => {
+  const requestDeleteProfile = (id: string, e?: React.MouseEvent) => {
     e?.stopPropagation();
-    if (confirm('Are you sure you want to delete this profile?')) {
-      const newProfiles = profiles.filter(p => p.id !== id);
-      setProfiles(newProfiles);
-      if (activeProfileId === id && newProfiles.length > 0) {
-        setActiveProfileId(newProfiles[0].id);
-      }
+    setDeletingProfileId(id);
+  };
+
+  const confirmDeleteProfile = () => {
+    if (deletingProfileId) {
+       const newProfiles = profiles.filter(p => p.id !== deletingProfileId);
+       setProfiles(newProfiles);
+       if (activeProfileId === deletingProfileId && newProfiles.length > 0) {
+         setActiveProfileId(newProfiles[0].id);
+       } else if (newProfiles.length === 0) {
+           setActiveProfileId('');
+       }
+       setDeletingProfileId(null);
     }
+  };
+
+  const performImport = async () => {
+     try {
+         const protocol = window.location.protocol;
+         // Fetch from the backend server relative to current frontend
+         const res = await fetch(`${protocol}//${location.hostname}:8002/config`);
+         if (res.ok) {
+             const data = await res.json();
+             if (data.profiles && Array.isArray(data.profiles)) {
+                 // Update Local State FIRST to reflect changes in UI
+                 setProfiles(data.profiles);
+                 if (data.profiles.length > 0) {
+                     setActiveProfileId(data.profiles[0].id);
+                 }
+                 
+                 // Update Parent State immediately
+                 onSave(data.profiles);
+                 
+                 alert("Imported successfully! Tabs restored.");
+                 setShowImportConfirm(false);
+             } else {
+                 alert("No valid profiles found.");
+             }
+         } else {
+             alert("Failed to connect to backend.");
+         }
+     } catch(e) { 
+         alert("Import failed: " + String(e)); 
+     }
   };
 
   const moveProfile = (index: number, direction: 'up' | 'down') => {
@@ -86,7 +126,9 @@ export const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ initialProfile
     <div style={{
       position: 'fixed',
       top: 0, left: 0, right: 0, bottom: 0,
-      background: 'var(--background)',
+      background: 'rgba(0, 0, 0, 0.65)',
+      backdropFilter: 'blur(20px)',
+      WebkitBackdropFilter: 'blur(20px)',
       zIndex: 900,
       display: 'flex',
       flexDirection: 'column',
@@ -97,7 +139,7 @@ export const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ initialProfile
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
             <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', margin: 0 }}>Settings</h2>
-            <div style={{ display: 'flex',  background: 'var(--surface)', borderRadius: '8px', padding: '4px' }}>
+            <div style={{ display: 'flex',  background: 'var(--surface-glass)', borderRadius: '8px', padding: '4px' }}>
                 <button 
                   onClick={() => setViewMode('layout')}
                   style={{ 
@@ -124,6 +166,17 @@ export const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ initialProfile
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
           <button 
+             onClick={() => setShowImportConfirm(true)}
+             style={{ 
+               padding: '8px', borderRadius: '50%', 
+               background: 'var(--surface-glass)', color: 'var(--text-secondary)', border: 'none',
+               cursor: 'pointer'
+             }}
+             title="Import Legacy Config"
+          >
+             <ArrowDown size={20} />
+          </button>
+          <button 
             onClick={handleSave}
             disabled={isSaving}
             style={{ 
@@ -139,7 +192,7 @@ export const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ initialProfile
             onClick={onClose}
             style={{ 
               padding: '8px', borderRadius: '50%', 
-              background: 'var(--surface)', color: 'var(--text-secondary)', border: 'none',
+              background: 'var(--surface-glass)', color: 'var(--text-secondary)', border: 'none',
               cursor: 'pointer'
             }}
           >
@@ -150,7 +203,7 @@ export const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ initialProfile
 
       {viewMode === 'layout' ? (
         <div style={{ maxWidth: '600px', margin: '0 auto', width: '100%' }}>
-            <div style={{ marginBottom: '20px', padding: '20px', background: 'var(--surface)', borderRadius: '12px' }}>
+            <div style={{ marginBottom: '20px', padding: '20px', background: 'var(--surface-glass)', borderRadius: '12px' }}>
                 <h3 style={{ marginBottom: '10px', color: 'var(--text-primary)' }}>Active Tabs (Max 5)</h3>
                 <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '15px' }}>
                     These top 5 groups will be displayed as tabs. Reorder to swap.
@@ -179,7 +232,7 @@ export const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ initialProfile
                         <div style={{ display: 'flex', gap: '4px' }}>
                             <button onClick={() => moveProfile(index, 'up')} disabled={index === 0} style={{ padding: '4px', background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-primary)' }}><ArrowUp size={16} /></button>
                             <button onClick={() => moveProfile(index, 'down')} disabled={index === profiles.length - 1} style={{ padding: '4px', background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-primary)' }}><ArrowDown size={16} /></button>
-                            <button onClick={(e) => handleDeleteProfile(p.id, e)} style={{ padding: '4px', background: 'transparent', border: 'none', cursor: 'pointer', color: '#ef4444', marginLeft: '8px' }}><Trash2 size={16} /></button>
+                            <button onClick={(e) => requestDeleteProfile(p.id, e)} style={{ padding: '4px', background: 'transparent', border: 'none', cursor: 'pointer', color: '#ef4444', marginLeft: '8px' }}><Trash2 size={16} /></button>
                         </div>
                     </div>
                 ))}
@@ -206,7 +259,7 @@ export const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ initialProfile
                       onClick={() => setActiveProfileId(p.id)}
                       style={{
                         padding: '8px 16px', borderRadius: '12px', border: 'none', whiteSpace: 'nowrap',
-                        background: activeProfileId === p.id ? 'var(--accent)' : 'var(--surface)',
+                        background: activeProfileId === p.id ? 'var(--accent)' : 'var(--surface-glass)',
                         color: activeProfileId === p.id ? '#fff' : 'var(--text-secondary)',
                         cursor: 'pointer',
                         opacity: index < 5 ? 1 : 0.7
@@ -219,7 +272,7 @@ export const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ initialProfile
 
              {activeProfile && (
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '16px', background: 'var(--surface)', borderRadius: '12px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '16px', background: 'var(--surface-glass)', borderRadius: '12px' }}>
                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', width: '80px' }}>Name:</span>
                         <input 
@@ -229,7 +282,7 @@ export const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ initialProfile
                           style={{ flex: 1, padding: '8px', borderRadius: '8px', border: 'none', background: 'var(--background)', color: 'var(--text-primary)' }}
                         />
                         <button 
-                          onClick={(e) => handleDeleteProfile(activeProfile.id, e)}
+                          onClick={(e) => requestDeleteProfile(activeProfile.id, e)}
                           style={{ color: '#f87171', background: 'transparent', border: 'none', cursor: 'pointer', padding: '8px' }}
                           title="Delete Group"
                         >
@@ -250,6 +303,53 @@ export const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ initialProfile
                   <GridEditor buttons={activeProfile.buttons} rows={activeProfile.rows} cols={activeProfile.cols} onUpdate={handleUpdateButtons} />
                 </div>
              )}
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal for Profile */}
+      {deletingProfileId && (
+        <div style={{ 
+            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, 
+            display: 'flex', justifyContent: 'center', alignItems: 'center', 
+            zIndex: 1100, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(2px)'
+        }}>
+            <div style={{ background: 'var(--surface)', padding: '24px', borderRadius: '16px', width: '300px', textAlign: 'center', boxShadow: '0 10px 40px rgba(0,0,0,0.5)' }}>
+                <h3 style={{ marginBottom: '12px', color: 'var(--text-primary)' }}>Confirm Delete</h3>
+                <p style={{ color: 'var(--text-secondary)', marginBottom: '24px' }}>Are you sure you want to delete this profile?</p>
+                <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                    <button onClick={() => setDeletingProfileId(null)} style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: 'rgba(255,255,255,0.1)', color: 'var(--text-primary)', cursor: 'pointer' }}>Cancel</button>
+                    <button onClick={confirmDeleteProfile} style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: '#ef4444', color: '#fff', fontWeight: 'bold', cursor: 'pointer' }}>Delete</button>
+                </div>
+            </div>
+        </div>
+      )}
+
+      {/* Import Confirmation Modal */}
+      {showImportConfirm && (
+        <div style={{ 
+            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, 
+            display: 'flex', justifyContent: 'center', alignItems: 'center', 
+            zIndex: 1100, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(2px)'
+        }}>
+            <div style={{ background: 'var(--surface)', padding: '24px', borderRadius: '16px', width: '300px', textAlign: 'center', boxShadow: '0 10px 40px rgba(0,0,0,0.5)' }}>
+                <h3 style={{ marginBottom: '12px', color: 'var(--text-primary)' }}>Import Config?</h3>
+                <p style={{ color: 'var(--text-secondary)', marginBottom: '24px', fontSize: '0.9rem' }}>
+                    Restore profiles from backend?<br/>
+                    <strong style={{color: '#f87171'}}>Current changes will be overwritten.</strong>
+                </p>
+                <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                    <button onClick={() => setShowImportConfirm(false)} style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: 'rgba(255,255,255,0.1)', color: 'var(--text-primary)', cursor: 'pointer' }}>Cancel</button>
+                    <button onClick={performImport} style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: '#3b82f6', color: '#fff', fontWeight: 'bold', cursor: 'pointer' }}>Import</button>
+                    <button onClick={() => {
+                        if (confirm("Reset EVERYTHING? This clears all local data and reloads defaults.")) {
+                            localStorage.clear();
+                            window.location.reload();
+                        }
+                    }} style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: '#ef4444', color: '#fff', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <Trash2 size={16} /> full reset
+                    </button>
+                </div>
+            </div>
         </div>
       )}
     </div>
